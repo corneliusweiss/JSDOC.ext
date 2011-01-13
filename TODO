@@ -1,0 +1,6 @@
+- add @hide support
+- support links
+- support Ext.apply(if) for code structure
+- support Ext.override for code structure
+- add jsb2 file inclue wrapper
+

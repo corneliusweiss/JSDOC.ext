@@ -8,7 +8,24 @@ Ext.ns('App.Package');
  * @param {Object} config
  */
 App.Package.ClassA = function(config) {
-    
+    this.addEvents(
+        /**
+         * @event random
+         * Fires randomly.
+         * @param {App.Package.ClassA} a this.
+         * @param {Number} num1 a random number.
+         * @param {Number} num2 on other random number.
+         */
+         'random',
+         /**
+         * @event other
+         * Fires at other times.
+         * @param {App.Package.ClassA} a this.
+         * @param {Number} num1 a random number.
+         * @param {Number} num2 on other random number.
+         */
+         'other'
+    );
 }
 
 Ext.extend(App.Package.ClassA, Ext.Panel, {
@@ -37,6 +54,11 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
      */
      prop2: 'prop2',
      
+     prop3: 'prop3',
+     
+     //private
+     prop4: 'private',
+     
     /**
      * a method
      *
@@ -46,6 +68,7 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
     method: function(arg1, arg2) {
         
     }
+    
 });
 
 

@@ -2,13 +2,9 @@ IO.include("frame/Dumper.js");
 JSDOC.PluginManager.registerPlugin(
     "JSDOC.ext",
     {
-        onSymbol: function(symbol) {
+//        onSymbol: function(symbol) {
 //            print('onSymbol ' + Dumper.dump(symbol));
-//            if (symbol.name.split('.').length == 1 && symbol.comment.isUserComment) {
-//                print('onSymbol ' + Dumper.dump(symbol));
-//                symbol.memberOf = 'App.Package.ClassA';
-//            }
-        },
+//        },
 //        
 //        onDocCommentSrc: function(comment) {
 //            print('onDocCommentSrc ' + Dumper.dump(comment));
@@ -42,6 +38,9 @@ JSDOC.PluginManager.registerPlugin(
                 case 'Ext.extend' :
                     this.onExtend.apply(this, arguments);
                     break;
+                case 'this.addEvents' :
+                    this.onAddEvents.apply(this, arguments);
+                    break;
             }
         },
         
@@ -49,6 +48,7 @@ JSDOC.PluginManager.registerPlugin(
             // shift symbol name off
             var descParts = comment.tags[0].desc.split(/\s/),
                 name = descParts.shift();
+                
             comment.tags[0].desc = comment.tags[0].desc.replace(new RegExp('^' + name), '');
             
             // add type and desc
@@ -69,6 +69,33 @@ JSDOC.PluginManager.registerPlugin(
                     new JSDOC.Token(',', "PUNC", "COMMA")
                 );
             }
+        },
+        
+        /**
+         * onAddEvents
+         * 
+         * @param {Object} functionCall
+         */
+        onAddEvents: function(functionCall) {
+            var ts = JSDOC.Parser.walker.ts,
+                object = JSDOC.Parser.walker.namescope.last().alias.replace(/(#.*)/, ''),
+                block = new JSDOC.TokenStream(ts.balance("LEFT_PAREN"));
+            
+            // find and parse events
+            while (block.look()) {
+                if (block.look().is("JSDOC") && !block.look().is("VOID")) {                                             
+                    var comment = new JSDOC.DocComment(block.look().data),
+                        name = comment.getTag('event')[0].desc.split(/\s/).shift(),
+                        desc = new JSDOC.DocTag();
+                        
+                        desc.title = 'desc';
+                        desc.desc = comment.getTag('event')[0].desc.replace(new RegExp('^' + name), '');
+                        comment.tags.push(desc);
+                        
+                        JSDOC.Parser.symbols.addSymbol(new JSDOC.Symbol(object + "#" + name, [], "FUNCTION", comment));
+                }
+                if (!block.next()) break;
+            } 
         },
         
         /**
@@ -124,14 +151,16 @@ JSDOC.PluginManager.registerPlugin(
             var docComment = new JSDOC.DocComment(doc);
             
             // copy missing props from original symbol
-            for (var i=0, sTag, dTag; i<symbol.comment.tags.length; i++) {
-                sTag = symbol.comment.tags[i];
-                dTag = docComment.getTag(sTag.title)[0];
-                
-                if (! dTag) {
-                    docComment.tags.push(sTag);
-                } else if (sTag.title === 'desc' && dTag.desc === "") {
-                    dTag.desc = sTag.desc;
+            if (symbol) {
+                for (var i=0, sTag, dTag; i<symbol.comment.tags.length; i++) {
+                    sTag = symbol.comment.tags[i];
+                    dTag = docComment.getTag(sTag.title)[0];
+                    
+                    if (! dTag) {
+                        docComment.tags.push(sTag);
+                    } else if (sTag.title === 'desc' && dTag.desc === "") {
+                        dTag.desc = sTag.desc;
+                    }
                 }
             }
             
