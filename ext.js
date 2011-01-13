@@ -47,9 +47,9 @@ JSDOC.PluginManager.registerPlugin(
         
         onCfg: function(comment) {
             // shift symbol name off
-            var descParts = comment.tags[0].desc.split(' '),
+            var descParts = comment.tags[0].desc.split(/\s/),
                 name = descParts.shift();
-            comment.tags[0].desc = descParts.join(' ');
+            comment.tags[0].desc = comment.tags[0].desc.replace(new RegExp('^' + name), '');
             
             // add type and desc
             ['type', 'desc'].map(function(title) {
@@ -58,7 +58,17 @@ JSDOC.PluginManager.registerPlugin(
                 tag.desc = comment.tags[0][title]; //.replace(/^/);
                 comment.tags.push(tag);
             });
-//            print('onCfg ' + Dumper.dump(comment));
+            
+            // auto add a symbol if not exists
+            var ts = JSDOC.Parser.walker.ts;
+            if (! ts.look(+1).is("NAME")) {
+                ts.tokens.splice(ts.cursor+1, 0, 
+                    new JSDOC.Token(name, "NAME", "NAME"),
+                    new JSDOC.Token(':', "PUNC", "COLON"),
+                    new JSDOC.Token("''", "STRN", "SINGLE_QUOTE"),
+                    new JSDOC.Token(',', "PUNC", "COMMA")
+                );
+            }
         },
         
         /**

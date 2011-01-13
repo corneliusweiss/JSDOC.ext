@@ -19,7 +19,7 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
     
     /**
      * @cfg {String} cfg2 
-     * config var 2
+     * config var 2 with whitespace after name
      */
     cfg2: 'cfg2',
         
