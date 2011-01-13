@@ -13,31 +13,29 @@ App.Package.ClassA = function(config) {
 
 Ext.extend(App.Package.ClassA, Ext.Panel, {
     /**
-     * @cfg cfg1
+     * @cfg {String} cfg1
      * config var 1 without symbol
      */
     
     /**
-     * @cfg cfg2 config var 2 with implicit desc
+     * @cfg {String} cfg2 
+     * config var 2
      */
     cfg2: 'cfg2',
-    
+        
     /**
-     * a property with exclusive desc
+     * a property without propterty tag
      * @type String
      */
     prop1: 'prop1',
-    
+        
     /**
-     * @type String property with implicit desc
-     */
-    prop2: 'prop2',
-    
-    /**
-     * @property property3 
+     * prop2 is so important
+     *
+     * @property prop2
      * @type String
      */
-     prop3: 'prop3',
+     prop2: 'prop2',
      
     /**
      * a method

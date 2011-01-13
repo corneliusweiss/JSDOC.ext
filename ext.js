@@ -14,9 +14,16 @@ JSDOC.PluginManager.registerPlugin(
 //            print('onDocCommentSrc ' + Dumper.dump(comment));
 //        },
 //        
-//        onDocCommentTags: function(comment) {
-//            print('onDocCommentTags ' + Dumper.dump(comment));
-//        },
+        onDocCommentTags: function(comment) {
+            var title = comment.tags[0] ? comment.tags[0].title : '';
+            
+            switch(title) {
+                case 'cfg' :
+                    this.onCfg(comment);
+                    break;
+            }
+            
+        },
 //        
 //        onDocTagSynonym: function(tag) {
 //            print('onDocTagSynonym ' + Dumper.dump(tag));
@@ -31,14 +38,29 @@ JSDOC.PluginManager.registerPlugin(
 //        },
 //        
         onFunctionCall: function(functionCall) {
-//            print('onFunctionCall ' + Dumper.dump(functionCall));
             switch (functionCall.name) {
                 case 'Ext.extend' :
                     this.onExtend.apply(this, arguments);
                     break;
             }
         },
-    
+        
+        onCfg: function(comment) {
+            // shift symbol name off
+            var descParts = comment.tags[0].desc.split(' '),
+                name = descParts.shift();
+            comment.tags[0].desc = descParts.join(' ');
+            
+            // add type and desc
+            ['type', 'desc'].map(function(title) {
+                var tag = new JSDOC.DocTag();
+                tag.title = title;
+                tag.desc = comment.tags[0][title]; //.replace(/^/);
+                comment.tags.push(tag);
+            });
+//            print('onCfg ' + Dumper.dump(comment));
+        },
+        
         /**
          * onExtend
          * - document Ext.extend if it's not already done via tags
