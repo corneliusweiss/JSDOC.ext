@@ -4,6 +4,7 @@ Ext.ns('App.Package');
 /**
  * Doc bloc above explicit constructor fn
  * 
+ * @author Cornelius Weiss <mail@corneliusweiss.de>
  * @param {Object} config
  */
 App.Package.ClassA = function(config) {
@@ -13,22 +14,34 @@ App.Package.ClassA = function(config) {
 Ext.extend(App.Package.ClassA, Ext.Panel, {
     /**
      * @cfg cfg1
-     * config var 1
+     * config var 1 without symbol
      */
     
     /**
-     * @cfg cfg2 config var 2
+     * @cfg cfg2 config var 2 with implicit desc
      */
     cfg2: 'cfg2',
     
     /**
-     * a property
+     * a property with exclusive desc
      * @type String
      */
     prop1: 'prop1',
     
     /**
-     * 
+     * @type String property with implicit desc
+     */
+    prop2: 'prop2',
+    
+    /**
+     * @property property3 
+     * @type String
+     */
+     prop3: 'prop3',
+     
+    /**
+     * a method
+     *
      * @param {Number} arg1 argument 1
      * @param {String} arg2 argument 2
      */
