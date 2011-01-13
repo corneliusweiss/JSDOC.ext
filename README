@@ -1,0 +1,11 @@
+JSOC.ext
+========
+
+JSDOC.ext is a plugin for the famous jsdoc-toolkit by Michael Mathews (http://code.google.com/p/jsdoc-toolkit/) for enabling the toolkit to cope with the code outline and doc style of the even more famous extjs library (http://www.sencha.com/products/js/)
+
+Installation
+============
+
+Just place the file ext.js in your jsdoc-toolkit installations app/plugins directory and use the toolkit as described on its docu.
+
+
