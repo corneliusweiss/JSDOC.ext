@@ -2,9 +2,13 @@ IO.include("frame/Dumper.js");
 JSDOC.PluginManager.registerPlugin(
     "JSDOC.ext",
     {
-//        onSymbol: function(symbol) {
+        onSymbol: function(symbol) {
 //            print('onSymbol ' + Dumper.dump(symbol));
-//        }
+//            if (symbol.name.split('.').length == 1 && symbol.comment.isUserComment) {
+//                print('onSymbol ' + Dumper.dump(symbol));
+//                symbol.memberOf = 'App.Package.ClassA';
+//            }
+        },
 //        
 //        onDocCommentSrc: function(comment) {
 //            print('onDocCommentSrc ' + Dumper.dump(comment));
@@ -30,7 +34,7 @@ JSDOC.PluginManager.registerPlugin(
 //            print('onFunctionCall ' + Dumper.dump(functionCall));
             switch (functionCall.name) {
                 case 'Ext.extend' :
-                    this.onExtend(arguments);
+                    this.onExtend.apply(this, arguments);
                     break;
             }
         },
@@ -84,7 +88,7 @@ JSDOC.PluginManager.registerPlugin(
             
     //        print(doc);
             functionCall.doc = doc;
-            
+        
             var docComment = new JSDOC.DocComment(doc);
             
             // copy missing props from original symbol
