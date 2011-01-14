@@ -84,7 +84,7 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
     overriddenMethod: function(q)
     {
     
-    }
+    },
     
     /**
      * a method
