@@ -26,6 +26,17 @@ App.Package.ClassA = function(config) {
          */
          'other'
     );
+    
+    Ext.applyIf(this, {
+        /**
+         * a method with Ext.applyIf in the constructor
+         *
+         * @param {Number} i some number
+         * @return {String} some return string
+         */
+        constructorAppliedMethod: function(i) {
+        }
+    });
 }
 
 Ext.extend(App.Package.ClassA, Ext.Panel, {
@@ -39,7 +50,7 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
      * config var 2 with whitespace after name
      */
     cfg2: 'cfg2',
-        
+      
     /**
      * a property without propterty tag
      * @type String
@@ -60,6 +71,22 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
      prop4: 'private',
      
     /**
+     * this should not be shown as it becomes overriden
+     * @type String
+     */
+    prop5: 'prop5',
+     
+    /**
+     * this should not be shown as it becomes overriden
+     * 
+     * @param {String} q
+     */
+    overriddenMethod: function(q)
+    {
+    
+    }
+    
+    /**
      * a method
      *
      * @param {Number} arg1 argument 1
@@ -71,7 +98,55 @@ Ext.extend(App.Package.ClassA, Ext.Panel, {
     
 });
 
+Ext.applyIf(App.Package.ClassA.prototype, {
+    /**
+     * @cfg {String} appliedifcfg1
+     * appliedIf config var 1 without symbol
+     */
+    
+    /**
+     * @cfg {String} appliedifcfg2 
+     * appliedIf config var 2 with whitespace after name
+     */
+    appliedifcfg2: 'appliedifcfg2',
+    
+    /**
+     * appliedIf property1
+     * @property appliedifprop1
+     * @type String
+     */
+    appliedifprop1: 'appliedifprop1',
+    
+    /**
+     * appliedIf method
+     *
+     * @param {Array} a some param
+     * @param {Object} b some object
+     * @return {Boolean}
+     */
+    appliedifmethod: function(a, b) {
+        // this of course should not be docuemted!
+        this.xyz = Ext.applyIf(this.a, {});
+    }
+});
 
+Ext.override(App.Package.ClassA, {
+    /**
+     * overriden method property
+     * @type String
+     */
+    prop5: 'prop5',
+    
+    /**
+     * overriden method
+     * 
+     * @param {String} q
+     */
+    overriddenMethod: function(q)
+    {
+    
+    }
+});
 
 App.Package.ClassB = function(config) {
     
@@ -82,7 +157,6 @@ App.Package.ClassB = function(config) {
  * @param {Object} config
  */
 Ext.extend(App.Package.ClassB, Ext.Panel, {});
-
 
 
 /**
