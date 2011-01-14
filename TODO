@@ -1,4 +1,5 @@
 - add @hide support
+- seperate code into multiple plugins
 - support links
 - add jsb2 file inclue wrapper
 
