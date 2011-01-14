@@ -1,5 +1,15 @@
-- add @hide support
+Next Steps
+==========
 - seperate code into multiple plugins
+- cope with:
+-- var f = Ext.extend(...) -> Ext.data.record.js
+-- return Ext.extend() -> Ext-more.js
+-- var T = Ext.Toolbar; Ext.extend(T, ...) -> Toolbar.js
+-- var EXTLIB = Ext.lib; Ext.extend(EXTLIB... -> quite some base files
+- add @hide support -> means an overriden cfg (mostly w.o. symbol) should no longer be displayed
 - support links
+
+Long Term
+=========
 - add jsb2 file inclue wrapper
 
