@@ -114,7 +114,7 @@ JSDOC.PluginManager.registerPlugin(
         onCfg: function(comment) {
             // shift symbol name off
             var descParts = comment.tags[0].desc.split(/\s/),
-                name = descParts.shift();
+                name = descParts.shift().replace(/[^a-zA-z0-9]/, '');
                 
             comment.tags[0].desc = comment.tags[0].desc.replace(new RegExp('^' + name), '');
             
