@@ -163,3 +163,8 @@ Ext.extend(App.Package.ClassB, Ext.Panel, {});
  * 2 arguments form
  */
 App.Package.ClassC = Ext.extend(Ext.Panel, {});
+
+/**
+ * do fancy stuff with an fn
+ */
+Function.prototype.fancy = function(){};

@@ -1,5 +1,7 @@
-Next Steps
-==========
+Next Steps Parsing (plugins)
+============================
+- support @cfg, @property w.o. symbol
+- optional include/exclude ext code
 - seperate code into multiple plugins
 - cope with:
 -- var f = Ext.extend(...) -> Ext.data.record.js
@@ -8,6 +10,13 @@ Next Steps
 -- var EXTLIB = Ext.lib; Ext.extend(EXTLIB... -> quite some base files
 - add @hide support -> means an overriden cfg (mostly w.o. symbol) should no longer be displayed
 - support links
+
+Next Steps Template
+===================
+- ns ->pkg
+- icons
+- link resolving
+
 
 Long Term
 =========

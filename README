@@ -33,3 +33,9 @@ $ java -jar jsrun.jar app/run.js -P=/usr/local/src/JSDOC.ext/plugins -t=template
 Use jsdoc-toolkit as always:
 $ java -jar jsrun.jar app/run.js -t=templates/jsdoc /usr/local/src/JSDOC.ext/test/samples/Extend.js
 
+Options
+=======
+extdir - path/to/extjs source distribution (required)
+logo - path/to/custom/logo
+title - title of config
+

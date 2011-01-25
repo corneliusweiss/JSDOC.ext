@@ -1,0 +1,210 @@
+<html>
+    <head>
+        {! Link.base = "./"; /* all generated links will be relative to this */ !}
+    </head>
+    <body>
+        <div class="body-wrap" xmlns:ext="http://www.extjs.com">
+            <div class="top-tools">
+                <a class="inner-link" href="#{+ data.alias +}-props">
+                    <img src="resources/images/default/s.gif" class="item-icon icon-prop">
+                    Properties
+                </a>
+                <a class="inner-link" href="#{+ data.alias +}-methods">
+                    <img src="resources/images/default/s.gif" class="item-icon icon-method">
+                    Methods
+                </a>
+                <a class="inner-link" href="#{+ data.alias +}-events">
+                    <img src="resources/images/default/s.gif" class="item-icon icon-event">
+                    Events
+                </a>
+                <a class="inner-link" href="#{+ data.alias +}-configs">
+                    <img src="resources/images/default/s.gif" class="item-icon icon-config">
+                    Config Options
+                </a>
+                <a class="bookmark" href="../docs/?class={+ data.alias +}">
+                    <img src="resources/images/default/s.gif" class="item-icon icon-fav">
+                    Direct Link
+                </a>
+            </div>
+            <if test="data.augments.length">
+            {! var augments = JSDOC.ext.publish.getAugments(data).reverse(); !}
+            <div class="inheritance res-block">
+                <pre class="res-block-inner">{!
+                    for (var i=0; i<augments.length; i++) {
+                        if (i > 0) {
+                            output += '\n' + String.leftPad('', i, ' ') + '<img src="resources/elbow-end.gif">'
+                        }
+                        output += new JSDOC.ext.Link().toSymbol(augments[i]).inner('constructor').withText(augments[i].desc.split('.').pop());
+                    }
+                    
+                    output += '\n' + String.leftPad('', i+1, ' ') + '<img src="resources/elbow-end.gif">' + data.name;
+                !}</pre>
+            </div>
+            </if>
+            
+            <h1>Class {+ new JSDOC.ext.Link().toSrc(data.srcFile).withText(data.alias)+}</h1>
+            
+            <table cellspacing="0">
+                <tbody>
+                    <tr><td class="label">Package:</td><td class="hd-info">{+data.memberOf+}</td></tr>
+                    <tr><td class="label">Defined In:</td><td class="hd-info">{+new JSDOC.ext.Link().toSrc(data.srcFile)+}</td></tr>
+                    <tr><td class="label">Class:</td><td class="hd-info">{+ new JSDOC.ext.Link().toSrc(data.srcFile).withText(data.name)+}</td></tr>
+                    <tr><td class="label">Subclasses:</td><td class="hd-info"></td></tr>
+                    <if test="data.augments.length">
+                    <tr><td class="label">Extends:</td><td class="hd-info">{+ new JSDOC.ext.Link().toSymbol(data.augments[0]).inner('constructor') +}</td></tr></tbody>
+                    </if>
+            </table>
+            
+            <div class="description">
+                {+resolveLinks(data.desc)+}
+            </div>
+            <div class="hr"></div>
+            
+            {! var cfgs = data.properties.filter(function($){return $.comment && $.comment.tags && $.comment.tags[0] && $.comment.tags[0].title == 'cfg';}).sort(makeSortby("name")); !}
+            <if test="cfgs.length">
+                <a id="{+ data.alias +}-configs"></a>
+                <h2>Config Options</h2>
+                <table cellspacing="0" class="member-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="sig-header">Config Options</th>
+                            <th class="msource-header">Defined By</th>
+                        </tr>
+                        <for each="cfg" in="cfgs">
+                            <tr class="config-row expandable{+cfg.memberOf != data.alias ? ' inherited' : ''+} ">
+                                <td class="micon"><a href="#expand" class="exi">&nbsp;</a></td>
+                                <td class="sig"><a id="{+ cfg.memberOf +}-{+ cfg.name +}"></a><b>{+ new JSDOC.ext.Link().toSrc(cfg.srcFile).inner(cfg.name).withText(cfg.name) +}</b> : {+ cfg.type +}
+                                    <div class="mdesc">
+                                        <div class="short">{+ Ext.util.Format.ellipsis(Ext.util.Format.stripTags(cfg.desc), 120, true) +}</div>
+                                        <div class="long">{+resolveLinks(cfg.desc)+}</div>
+                                    </div>
+                                </td>
+                                <td class="msource">{+ cfg.memberOf != data.alias ? new JSDOC.ext.Link().toSymbol(cfg.memberOf).inner(cfg.name).withText(cfg.memberOf.split('.').pop()) : cfg.memberOf.split('.').pop() +}</td>
+                            </tr>
+                        </for>
+                    </tbody>
+                </table>
+            </if>
+
+            {! var props = data.properties.filter(function($){return $.comment && $.comment.tags && $.comment.tags[0] && $.comment.tags[0].title != 'cfg';}).sort(makeSortby("name")); !}
+            <if test="props.length">
+                <a id="{+ data.alias +}-props"></a>
+                <h2>Public Properties</h2>
+                <table cellspacing="0" class="member-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="sig-header">Property</th>
+                            <th class="msource-header">Defined By</th>
+                        </tr>
+                        <for each="prop" in="props">
+                            <tr class="config-row expandable{+prop.memberOf != data.alias ? ' inherited' : ''+} ">
+                                <td class="micon"><a href="#expand" class="exi">&nbsp;</a></td>
+                                <td class="sig"><a id="{+ prop.memberOf +}-{+ prop.name +}"></a><b>{+ new JSDOC.ext.Link().toSrc(prop.srcFile).inner(prop.name).withText(prop.name) +}</b> : {+ prop.type +}
+                                    <div class="mdesc">
+                                        <div class="short">{+ Ext.util.Format.ellipsis(Ext.util.Format.stripTags(prop.desc), 120, true) +}</div>
+                                        <div class="long">{+resolveLinks(prop.desc)+}</div>
+                                    </div>
+                                </td>
+                                <td class="msource">{+ prop.memberOf != data.alias ? new JSDOC.ext.Link().toSymbol(prop.memberOf).inner(prop.name).withText(prop.memberOf.split('.').pop()) : prop.memberOf.split('.').pop() +}</td>
+                            </tr>
+                        </for>
+                    </tbody>
+                </table>
+            </if>
+            
+            <if test="data.methods.length">
+                {! var methods = data.methods.filter(function($){return !$.isNamespace}).sort(makeSortby("name")); !}
+                <a id="{+ data.alias +}-methods"></a>
+                <h2>Public Methods</h2>
+                <table cellspacing="0" class="member-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="sig-header">Method</th>
+                            <th class="msource-header">Defined By</th>
+                        </tr>
+                        <for each="method" in="methods">
+                            <tr class="method-row expandable">
+                                <td class="micon"><a href="#expand" class="exi">&nbsp;</a></td>
+                                <td class="sig"><a id="{+ method.memberOf +}-{+ method.name +}"></a><b>{+ new JSDOC.ext.Link().toSrc(method.srcFile).inner(method.name).withText(method.name) +}</b>{+ JSDOC.ext.publish.makeSignature(method.params) +} : {+ method.returns.length ? method.returns[0].type : 'void' +}
+                                    <div class="mdesc">
+                                        <div class="short">{+ Ext.util.Format.ellipsis(Ext.util.Format.stripTags(resolveLinks(method.desc)), 120, true) +}</div>
+                                        <div class="long">
+                                            {+ resolveLinks(method.desc) +}
+                                            <div class="mdetail-params">
+                                                <strong>Parameters:</strong>
+                                                <ul>
+                                                    {! 
+                                                        if (method.params.length) {
+                                                            method.params.map(function($){
+                                                                output += '<li><code>' + $.name + '</code> : ' + $.type + '<div class="sub-desc">' + resolveLinks($.desc) + '</div></li>';
+                                                            });
+                                                        } else {
+                                                            output += '<li>none</li>';
+                                                        }
+                                                    !}
+                                                </ul>
+                                                <strong>Returns:</strong>
+                                                <ul>
+                                                    {! 
+                                                        if (method.returns.length) {
+                                                            output += '<li><code>' + method.returns[0].type + '</code><div class="sub-desc">' + resolveLinks(method.returns[0].desc) + '</div></li>';
+                                                        } else {
+                                                            output += '<li>void</li>';
+                                                        }
+                                                    !}
+                                                </ul>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="msource">{+ method.memberOf != data.alias ? new JSDOC.ext.Link().toSymbol(method.memberOf).inner(method.name).withText(method.memberOf.split('.').pop()) : method.memberOf.split('.').pop() +}</td>
+                            </tr>
+                        </for>
+                    </tbody>
+                </table>
+            </if>
+            
+            <if test="data.events.length">
+                {! var events = data.events.sort(makeSortby("name")); !}
+                <a id="{+ data.alias +}-events"></a>
+                <h2>Public Events</h2>
+                <table cellspacing="0" class="member-table">
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="sig-header">Event</th>
+                            <th class="msource-header">Defined By</th>
+                        </tr>
+                        <for each="event" in="events">
+                            <tr class="event-row expandable{+event.memberOf != data.alias ? ' inherited' : ''+} ">
+                                <td class="micon"><a href="#expand" class="exi">&nbsp;</a></td>
+                                <td class="sig"><a id="{+ event.memberOf +}-{+ event.name +}"></a><b>{+ new JSDOC.ext.Link().toSrc(event.srcFile).inner(event.name).withText(event.name) +}</b> : {+ JSDOC.ext.publish.makeSignature(event.params) +}
+                                    <div class="mdesc">
+                                        <div class="short">{+ Ext.util.Format.ellipsis(Ext.util.Format.stripTags(resolveLinks(event.desc)), 120, true) +}</div>
+                                        <div class="long">{+ resolveLinks(event.desc) +}
+                                            <div class="mdetail-params">
+                                                <strong style="font-weight: normal;">Listeners will be called with the following arguments:</strong>
+                                                <ul>
+                                                    {! 
+                                                        if (event.params.length) {
+                                                            event.params.map(function($){
+                                                                output += '<li><code>' + $.name + '</code> : ' + $.type + '<div class="sub-desc">' + resolveLinks($.desc) + '</div></li>';
+                                                            });
+                                                        } else {
+                                                            output += '<li>none</li>';
+                                                        }
+                                                    !}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="msource">{+ event.memberOf != event.alias ? new JSDOC.ext.Link().toSymbol(event.memberOf).inner(event.name).withText(event.memberOf.split('.').pop()) : event.memberOf.split('.').pop() +}</td>
+                            </tr>
+                        </for>
+                    </tbody>
+                </table>
+            </if>
+        </div>
+    </body>
+</html>

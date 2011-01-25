@@ -58,7 +58,7 @@ JSDOC.PluginManager.registerPlugin(
                     target = JSDOC.Parser.walker.namescope.last().alias.replace(/(#.*)/, '');
                     break;
                 case 'prototype':
-                    target = targetParts.join('.')
+                    target = targetParts.join('.');
                     break;
                 default:
                     return;

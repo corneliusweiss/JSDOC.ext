@@ -1,0 +1,58 @@
+<html lang="en" xmlns:ext="http://www.sencha.com/docs">
+<head>
+<title>{+ JSDOC.opt.D.title +}</title>
+
+<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
+<meta name="generator" content="https://github.com/corneliusweiss/JSDOC.ext" />
+<meta name="description" content="{+ JSDOC.opt.D.title +}" />
+
+<link rel="stylesheet" type="text/css" href="resources/css/ext-all.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/xtheme-gray.css" />
+<link rel="stylesheet" type="text/css" href="resources/docs.css" />
+<link rel="stylesheet" type="text/css" href="resources/style.css" />    
+<link rel="shortcut icon" href="resources/favicon.ico" />
+<link rel="icon" href="resources/favicon.ico" />
+<script type="text/javascript" src="resources/ext-base.js"></script>
+<script type="text/javascript" src="resources/ext-all.js"></script>
+<script type="text/javascript" src="resources/TabCloseMenu.js"></script>
+<script type="text/javascript" src="resources/docs.js"></script>
+<script type="text/javascript" src="output/tree.js"></script>
+</head>
+<body scroll="no" id="docs">
+<div id="loading-mask"></div>
+<div id="loading">
+    <div class="loading-indicator">
+        <img src="resources/extanim32.gif" width="32" height="32" style="margin-right:8px;" align="absmiddle" />
+        Loading&hellip;
+    </div>
+</div>
+
+<div id="header">
+    <img style="margin-left: 5px" src="resources/{+ JSDOC.opt.D.logo || 'title-ext.png' +}" alt="{+ JSDOC.opt.D.title +}" />
+    {! 
+        if (JSDOC.opt.D.logo) {
+            output += JSDOC.opt.D.title;
+        } else {
+            output += '<div style="position: absolute; padding-top: 14px; font-size: 20px; top: 0px; left: 140px; height: 49px; width: 300px; background: #ededed url(resources/hd-bg.png) repeat-x !important;">'+ JSDOC.opt.D.title +'</div>';
+        }
+    
+    !}
+    
+    <div style="float:right; margin-top: 15px;margin-right: 10px;color: #CCC">
+        <a href="https://github.com/corneliusweiss/JSDOC.ext" style="padding:5px">JSDOC.ext</a> | 
+        <a href="http://dev.sencha.com/deploy/dev/examples/" style="padding:5px">examples</a> | 
+        <a href="http://www.sencha.com/" style="padding:5px">sencha.com</a>
+    </div>
+</div>
+
+<div id="classes"></div>
+
+<div id="main"></div>
+
+<select id="search-options" style="display:none">
+    <option>Starts with</option>
+    <option>Ends with</option>
+    <option>Any Match</option>
+</select>
+</body>
+</html>
