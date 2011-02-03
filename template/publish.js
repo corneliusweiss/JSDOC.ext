@@ -169,7 +169,7 @@ try {
     load(JSDOC.opt.D.extdir+"src/core/Ext-more.js");
     
     Ext.util = Ext.util || {};
-    load(JSDOC.opt.D.extdir+"src/util/function.js");
+    load(JSDOC.opt.D.extdir+"src/util/Function.js");
     load(JSDOC.opt.D.extdir+"src/util/Format.js");
     load(JSDOC.opt.D.extdir+"src/ext-core/src/util/JSON.js");
     

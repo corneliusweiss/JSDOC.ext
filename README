@@ -1,12 +1,15 @@
 JSDOC.ext
 =========
 
-JSDOC.ext is a plugin for the famous jsdoc-toolkit by Michael Mathews (http://code.google.com/p/jsdoc-toolkit/) for enabling the toolkit to cope with the code outline and doc style of the even more famous extjs library (http://www.sencha.com/products/js/)
+JSDOC.ext is a set of plugins for the famous jsdoc-toolkit by Michael Mathews (http://code.google.com/p/jsdoc-toolkit/) for enabling the toolkit to cope with the code outline and doc style of the even more famous extjs library (http://www.sencha.com/products/js/).
+
+Additionally JSDOC.ext comes with a template which generates ouptut simmular to to the official ExtJS docs.
 
 Requirements
 ============
 
 A copy of jsdoc-toolkit version 2.4.0 or later
+A copy of the ExtJS source distribution if the template should be used
 
 Installation
 ============
@@ -17,8 +20,8 @@ Link plugins into the jsdoc-toolkit plugins dir
 Example:
 cd /urs/local/src
 git clone https://github.com/corneliusweiss/JSDOC.ext
-cd JSDOC.ext
-ln -s * /usr/local/src/jsdoc-toolkit/plugins/
+cd JSDOC.ext/plugins
+ln -s * /usr/local/src/jsdoc-toolkit/app/plugins/
 
 Usage
 =====
@@ -27,11 +30,15 @@ Usage
 Use the -P <plugindir> option when invoking jsdoc-toolkit as usual.
 
 Example:
-$ java -jar jsrun.jar app/run.js -P=/usr/local/src/JSDOC.ext/plugins -t=templates/jsdoc /usr/local/src/JSDOC.ext/test/samples/Extend.js 
+$ java -jar jsrun.jar app/run.js -P=/usr/local/src/JSDOC.ext/plugins -t=/usr/local/src/JSDOC.ext/template  -D="extdir:/usr/local/src/ext-3.3.1/" /usr/local/src/JSDOC.ext/test/samples/Extend.js 
 */
 
 Use jsdoc-toolkit as always:
-$ java -jar jsrun.jar app/run.js -t=templates/jsdoc /usr/local/src/JSDOC.ext/test/samples/Extend.js
+$ java -jar jsrun.jar app/run.js \
+       -t=/usr/local/src/JSDOC.ext/template \
+       -D="extdir:/usr/local/src/ext-3.3.1/" \
+       /usr/local/src/JSDOC.ext/test/samples/Extend.js 
+
 
 Options
 =======
@@ -39,3 +46,4 @@ extdir - path/to/extjs source distribution (required)
 logo - path/to/custom/logo
 title - title of config
 
+       
