@@ -20,6 +20,18 @@ JSDOC.ext.publish = {
     classes: null,
     
     /**
+     * @property augmentsCache
+     * @type Object
+     */
+    augmentsCache: null,
+    
+    /**
+     * @property iconClsCache
+     * @type Object
+     */
+    iconClsCache: null,
+    
+    /**
      * @property namespaces
      * @type Array
      */
@@ -32,6 +44,9 @@ JSDOC.ext.publish = {
         
         JSDOC.opt.D.title = JSDOC.opt.D.title || 'API Documentation';
         
+        this.augmentsCache = {};
+        this.iconClsCache = {};
+        
         this.symbolSet = symbolSet;
         this.symbols = this.symbolSet.toArray();
         this.classes = this.symbols.filter(this.isaClass).sort(makeSortby("alias"));
@@ -43,10 +58,10 @@ JSDOC.ext.publish = {
         print('after publish');
         
         // build tree
-        var docs = {
-            classData: {"id":"apidocs","iconCls":"icon-docs","text":"API Documentation","singleClickExpand":true,
-                "children": this.getTreeData()},
-            icons: {}};
+        var docs = { classData: {"id":"apidocs","iconCls":"icon-docs","text":"API Documentation","singleClickExpand":true,
+            "children": this.getTreeData()}
+        };
+        docs.icons = this.iconClsCache;
         
         IO.mkPath(publish.conf.outDir+"/output");
         IO.saveFile(publish.conf.outDir+'/output', 'tree.js', 'Docs = ' + Ext.encode(docs));
@@ -65,10 +80,18 @@ JSDOC.ext.publish = {
     },
     
     getAugments: function(cls) {
+        if (cls && cls.alias && this.augmentsCache[cls.alias]) {
+            return this.augmentsCache[cls.alias];
+        }
+        
         var augments = cls && cls.augments ? cls.augments : [];
         if (augments.length) {
             var augmentsCls = this.classes.filter(function($){ return $.alias == augments[0].desc})[0];
             augments = augments.concat(this.getAugments(augmentsCls));
+        }
+        
+        if (cls && cls.alias) {
+            this.augmentsCache[cls.alias] = augments;
         }
         
         return augments;
@@ -78,6 +101,7 @@ JSDOC.ext.publish = {
         var subs = this.classes.filter(function($) {
             return $.augments && $.augments[0] && $.augments[0].desc == cls.alias;
         });
+        
         return subs;
     },
     
@@ -104,6 +128,25 @@ JSDOC.ext.publish = {
                 parent: parent
             };
         })
+    },
+    
+    getIconCls: function(cls) {
+        if (cls && cls.alias && this.iconClsCache[cls.alias]) {
+            return this.iconClsCache[cls.alias];
+        }
+        
+        var iconCls ='icon-cls';
+        if (cls.comment.tags.filter(function($){return $.title == 'singleton'}).length) {
+            iconCls = 'icon-static';
+        } else if (this.getAugments(cls).filter(function($){ return $.desc == 'Ext.Component'}).length) {
+            iconCls = 'icon-cmp';
+        }
+        
+        if (cls && cls.alias) {
+            this.iconClsCache[cls.alias] = iconCls;
+        }
+        
+        return iconCls;
     },
     
     /**
@@ -136,7 +179,7 @@ JSDOC.ext.publish = {
                 id: c.alias,
                 text: c.name,
                 isClass: true,
-                iconCls: 'icon-cls',
+                iconCls: scope.getIconCls(c),
                 cls: 'cls',
                 leaf: true,
                 href: 'symbols/' + c.alias + '.html'
