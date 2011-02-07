@@ -28,10 +28,10 @@
 </div>
 
 <div id="header">
-    <img style="margin-left: 5px" src="resources/{+ JSDOC.opt.D.logo || 'title-ext.png' +}" alt="{+ JSDOC.opt.D.title +}" />
+    <img style="margin-left: 5px" src="resources/{+ JSDOC.opt.D.logo ? JSDOC.opt.D.logo.split('/').pop() : 'title-ext.png' +}" alt="{+ JSDOC.opt.D.title +}" />
     {! 
         if (JSDOC.opt.D.logo) {
-            output += JSDOC.opt.D.title;
+            output += '<span style="font-size: 20px; padding-left: 10px; position: absolute; top: 14px;">' + JSDOC.opt.D.title + '</span>';
         } else {
             output += '<div style="position: absolute; padding-top: 14px; font-size: 20px; top: 0px; left: 140px; height: 49px; width: 300px; background: #ededed url(resources/hd-bg.png) repeat-x !important;">'+ JSDOC.opt.D.title +'</div>';
         }
