@@ -49,9 +49,12 @@
                     <tr><td class="label">Package:</td><td class="hd-info">{+data.memberOf+}</td></tr>
                     <tr><td class="label">Defined In:</td><td class="hd-info">{+new JSDOC.ext.Link().toSrc(data.srcFile)+}</td></tr>
                     <tr><td class="label">Class:</td><td class="hd-info">{+ new JSDOC.ext.Link().toSrc(data.srcFile).withText(data.name)+}</td></tr>
-                    <tr><td class="label">Subclasses:</td><td class="hd-info"></td></tr>
+                    {! var subclasses = JSDOC.ext.publish.getSubclasses(data); !}
+                    <if test="subclasses.length">
+                        <tr><td class="label">Subclasses:</td><td class="hd-info">{+ subclasses.map(function($){return new JSDOC.ext.Link().toSymbol($.alias).withText($.name)} ).join(', ') +}</td></tr>
+                    </if>
                     <if test="data.augments.length">
-                    <tr><td class="label">Extends:</td><td class="hd-info">{+ new JSDOC.ext.Link().toSymbol(data.augments[0]).inner('constructor') +}</td></tr></tbody>
+                        <tr><td class="label">Extends:</td><td class="hd-info">{+ new JSDOC.ext.Link().toSymbol(data.augments[0]).withText(data.augments[0].desc.split('.').pop()) +}</td></tr></tbody>
                     </if>
             </table>
             
@@ -60,10 +63,10 @@
             </div>
             <div class="hr"></div>
             
+            <a id="{+ data.alias +}-configs"></a>
+            <h2>Config Options</h2>
             {! var cfgs = data.properties.filter(function($){return $.comment && $.comment.tags && $.comment.tags[0] && $.comment.tags[0].title == 'cfg';}).sort(makeSortby("name")); !}
             <if test="cfgs.length">
-                <a id="{+ data.alias +}-configs"></a>
-                <h2>Config Options</h2>
                 <table cellspacing="0" class="member-table">
                     <tbody>
                         <tr>
@@ -84,12 +87,14 @@
                         </for>
                     </tbody>
                 </table>
+            <else />
+                <div class="no-members">This class has no config options.</div>
             </if>
 
+            <a id="{+ data.alias +}-props"></a>
+            <h2>Public Properties</h2>
             {! var props = data.properties.filter(function($){return $.comment && $.comment.tags && $.comment.tags[0] && $.comment.tags[0].title != 'cfg';}).sort(makeSortby("name")); !}
             <if test="props.length">
-                <a id="{+ data.alias +}-props"></a>
-                <h2>Public Properties</h2>
                 <table cellspacing="0" class="member-table">
                     <tbody>
                         <tr>
@@ -110,12 +115,14 @@
                         </for>
                     </tbody>
                 </table>
+            <else />
+                <div class="no-members">This class has no public properties.</div>
             </if>
             
+            <a id="{+ data.alias +}-methods"></a>
+            <h2>Public Methods</h2>
             <if test="data.methods.length">
                 {! var methods = data.methods.filter(function($){return !$.isNamespace}).sort(makeSortby("name")); !}
-                <a id="{+ data.alias +}-methods"></a>
-                <h2>Public Methods</h2>
                 <table cellspacing="0" class="member-table">
                     <tbody>
                         <tr>
@@ -163,12 +170,14 @@
                         </for>
                     </tbody>
                 </table>
+            <else />
+                <div class="no-members">This class has no public methods.</div>
             </if>
             
+            <a id="{+ data.alias +}-events"></a>
+            <h2>Public Events</h2>
             <if test="data.events.length">
                 {! var events = data.events.sort(makeSortby("name")); !}
-                <a id="{+ data.alias +}-events"></a>
-                <h2>Public Events</h2>
                 <table cellspacing="0" class="member-table">
                     <tbody>
                         <tr>
@@ -204,6 +213,8 @@
                         </for>
                     </tbody>
                 </table>
+            <else />
+                <div class="no-members">This class has no public events.</div>
             </if>
         </div>
     </body>

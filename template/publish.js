@@ -74,6 +74,13 @@ JSDOC.ext.publish = {
         return augments;
     },
     
+    getSubclasses: function(cls) {
+        var subs = this.classes.filter(function($) {
+            return $.augments && $.augments[0] && $.augments[0].desc == cls.alias;
+        });
+        return subs;
+    },
+    
     /**
      * get namespace list
      * 
